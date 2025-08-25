@@ -1,5 +1,5 @@
 
-const ContactItem = ({ contact }) => {
+const Contact = ({ contact }) => {
   return (
     <li>
       <span>{contact.name}</span>
@@ -9,4 +9,4 @@ const ContactItem = ({ contact }) => {
   );
 };
 
-export default ContactItem;
+export default Contact;

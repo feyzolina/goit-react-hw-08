@@ -1,34 +1,40 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { addContact as addContactToStore, setContacts, deleteContact as deleteContactFromStore } from './slice';
 
-axios.defaults.baseURL = 'https://connections-api.goit.global';
+const API_URL = 'https://6804040679cb28fb3f5a3235.mockapi.io/contacts';
 
-// Yeni kişi ekleme
-export const addContact = (contact) => async (dispatch) => {
-    try {
-        const response = await axios.post('/contacts', contact);
-        dispatch(addContactToStore(response.data));
-    } catch (error) {
-        console.error('Error adding contact:', error);
+export const fetchContacts = createAsyncThunk(
+    'contacts/fetchAll',
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get(API_URL);
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.message);
+        }
     }
-};
+);
 
-// Kişileri listeleme
-export const getContacts = () => async (dispatch) => {
-    try {
-        const response = await axios.get('/contacts');
-        dispatch(setContacts(response.data));
-    } catch (error) {
-        console.error('Error fetching contacts:', error);
+export const addContact = createAsyncThunk(
+    'contacts/addContact',
+    async (contact, thunkAPI) => {
+        try {
+            const response = await axios.post(API_URL, contact);
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.message);
+        }
     }
-};
+);
 
-// Kişi silme
-export const deleteContact = (id) => async (dispatch) => {
-    try {
-        await axios.delete(`/contacts/${id}`);
-        dispatch(deleteContactFromStore(id));
-    } catch (error) {
-        console.error('Error deleting contact:', error);
+export const deleteContact = createAsyncThunk(
+    'contacts/deleteContact',
+    async (id, thunkAPI) => {
+        try {
+            await axios.delete(`${API_URL}/${id}`);
+            return id;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.message);
+        }
     }
-};
+);
