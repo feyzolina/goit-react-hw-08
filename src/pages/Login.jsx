@@ -1,12 +1,3 @@
-import LoginForm from '../components/LoginForm/LoginForm';
-
-const Login = () => {
-  return (
-    <div style={{ padding: '20px' }}>
-      <h2>Login</h2>
-      <LoginForm />
-    </div>
-  );
-};
-
+import LoginForm from "../components/LoginForm/LoginForm";
+const Login = () => <LoginForm />;
 export default Login;

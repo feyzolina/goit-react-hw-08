@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -6,13 +5,13 @@ import { refreshUser } from "./redux/auth/operations";
 import { selectIsRefreshing } from "./redux/auth/selectors";
 
 import Layout from "./components/Layout/Layout";
-import Home from "./pages/Home.jsx";
-import Login from "./pages/Login.jsx";
-import Registration from "./pages/Registration.jsx";
-import Contacts from "./pages/Contacts.jsx";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
+import Contacts from "./pages/Contacts";
 
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
-import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute.jsx";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import RestrictedRoute from "./components/RestrictedRoute/RestrictedRoute";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,21 +28,27 @@ const App = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route
-          path="/register"
+          path="register"
           element={
-            <RestrictedRoute redirectTo="/contacts" component={<Registration />} />
+            <RestrictedRoute redirectTo="/contacts">
+              <Registration />
+            </RestrictedRoute>
           }
         />
         <Route
-          path="/login"
+          path="login"
           element={
-            <RestrictedRoute redirectTo="/contacts" component={<Login />} />
+            <RestrictedRoute redirectTo="/contacts">
+              <Login />
+            </RestrictedRoute>
           }
         />
         <Route
-          path="/contacts"
+          path="contacts"
           element={
-            <PrivateRoute redirectTo="/login" component={<Contacts />} />
+            <PrivateRoute redirectTo="/login">
+              <Contacts />
+            </PrivateRoute>
           }
         />
       </Route>

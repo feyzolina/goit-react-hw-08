@@ -1,0 +1,84 @@
+.home-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 500px;
+    width: 90vw;
+    padding: 48px 32px;
+    background: linear-gradient(135deg, #f9f9f9 60%, #e0e7ff 100%);
+    border-radius: 24px;
+    border: 4px solid #646cff;
+    box-shadow: 0 8px 32px rgba(100, 108, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    z-index: 2;
+}
+
+.home-title {
+    font-size: 2.7rem;
+    font-weight: 800;
+    color: #ff6f61;
+    margin-bottom: 28px;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 8px #e0e7ff;
+}
+
+.home-description {
+    font-size: 1.25rem;
+    color: #3867d6;
+    margin-bottom: 36px;
+    background: linear-gradient(90deg, #f7cac9 0%, #92a8d1 100%);
+    border-radius: 8px;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(146, 168, 209, 0.08);
+}
+
+.home-btn {
+    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+    color: #3867d6;
+    border: 2px solid #d1d8e0;
+    border-radius: 12px;
+    padding: 14px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(168, 237, 234, 0.12);
+    width: 220px;
+    margin: 0 auto;
+    display: block;
+}
+
+.home-btn:hover {
+    background: linear-gradient(90deg, #fed6e3 0%, #a8edea 100%);
+    border-color: #3867d6;
+    transform: scale(1.04);
+}
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: -18px;
+    /* Daha sola taşır */
+    width: 44px;
+    /* Yüksekliği ve genişliği artır */
+    height: 44px;
+    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+    color: #3867d6;
+    border: 1.5px solid #d1d8e0;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(168, 237, 234, 0.12);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    background: linear-gradient(90deg, #fed6e3 0%, #a8edea 100%);
+    border-color: #3867d6;
+        transform: scale(1.08);
+}
