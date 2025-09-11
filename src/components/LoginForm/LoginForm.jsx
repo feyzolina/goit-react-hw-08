@@ -1,21 +1,32 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/auth/operations';
-import css from './LoginForm.module.css';
+import { useNavigate } from 'react-router-dom';
+
+const validationSchema = Yup.object({
+  email: Yup.string().email('Geçersiz email').required('Email zorunlu'),
+  password: Yup.string().min(6, 'En az 6 karakter').required('Şifre zorunlu'),
+});
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.auth.isLoading);
+  const error = useSelector(state => state.auth.error);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const navigate = useNavigate();
 
-  const handleSubmit = (values, actions) => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/contacts');
+    }
+  }, [isLoggedIn, navigate]);
+
+  const handleSubmit = (values, { resetForm }) => {
     dispatch(logIn(values));
-    actions.resetForm();
+    resetForm();
   };
-
-  const validationSchema = Yup.object({
-    email: Yup.string().email('Invalid email').required('Required'),
-    password: Yup.string().min(6).required('Required'),
-  });
 
   return (
     <Formik
@@ -23,20 +34,20 @@ const LoginForm = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <Form className={css.form}>
+      <Form>
+        {isLoading && <p>Giriş yapılıyor...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <label>
           Email
-          <Field type="email" name="email" className={css.input} />
-          <ErrorMessage name="email" component="div" className={css.error} />
+          <Field name="email" type="email" />
+          <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
         </label>
-
         <label>
-          Password
-          <Field type="password" name="password" className={css.input} />
-          <ErrorMessage name="password" component="div" className={css.error} />
+          Şifre
+          <Field name="password" type="password" />
+          <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
         </label>
-
-        <button type="submit" className={css.button}>Log In</button>
+        <button type="submit" disabled={isLoading}>Giriş Yap</button>
       </Form>
     </Formik>
   );

@@ -1,61 +1,61 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/operations';
-import css from './RegistrationForm.module.css';
+import { useNavigate } from 'react-router-dom';
+
+const validationSchema = Yup.object({
+  name: Yup.string().min(2, 'En az 2 karakter').required('İsim zorunlu'),
+  email: Yup.string().email('Geçersiz email').required('Email zorunlu'),
+  password: Yup.string().min(6, 'En az 6 karakter').required('Şifre zorunlu'),
+});
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false);
+  const isLoading = useSelector(state => state.auth.isLoading);
+  const error = useSelector(state => state.auth.error);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (values, actions) => {
-    const resultAction = await dispatch(register(values));
-    if (register.fulfilled.match(resultAction)) {
-      setSuccess(true);
-      actions.resetForm();
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/contacts');
     }
+  }, [isLoggedIn, navigate]);
+
+  const handleSubmit = (values, { resetForm }) => {
+    dispatch(register(values));
+    resetForm();
   };
 
-  const validationSchema = Yup.object({
-    name: Yup.string().min(2).required('Required'),
-    email: Yup.string().email().required('Required'),
-    password: Yup.string().min(6).required('Required'),
-  });
-
   return (
-    <div>
-      {success && (
-        <div className={css.success}>Kayıt başarılı!</div>
-      )}
-      <Formik
-        initialValues={{ name: '', email: '', password: '' }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form className={css.form}>
-          <label>
-            Name
-            <Field type="text" name="name" className={css.input} />
-            <ErrorMessage name="name" component="div" className={css.error} />
-          </label>
-
-          <label>
-            Email
-            <Field type="email" name="email" className={css.input} />
-            <ErrorMessage name="email" component="div" className={css.error} />
-          </label>
-
-          <label>
-            Password
-            <Field type="password" name="password" className={css.input} />
-            <ErrorMessage name="password" component="div" className={css.error} />
-          </label>
-
-          <button type="submit" className={css.button}>Register</button>
-        </Form>
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{ name: '', email: '', password: '' }}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <Form>
+        {isLoading && <p>Kayıt yapılıyor...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <label>
+          İsim
+          <Field name="name" />
+          <ErrorMessage name="name" component="div" style={{ color: 'red' }} />
+        </label>
+        <label>
+          Email
+          <Field name="email" type="email" />
+          <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
+        </label>
+        <label>
+          Şifre
+          <Field name="password" type="password" />
+          <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
+        </label>
+        <button type="submit" disabled={isLoading}>Kayıt Ol</button>
+      </Form>
+    </Formik>
   );
 };
 
