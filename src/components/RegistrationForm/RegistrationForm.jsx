@@ -6,15 +6,11 @@ import styles from '../LoginForm/LoginForm.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-
 const validationSchema = Yup.object({
   name: Yup.string().min(2, 'En az 2 karakter').required('İsim zorunlu'),
   email: Yup.string().email('Geçersiz email').required('Email zorunlu'),
   password: Yup.string().min(6, 'En az 6 karakter').required('Şifre zorunlu'),
 });
-
-
-
 
 const RegistrationForm = () => {
   const dispatch = useDispatch();
@@ -22,12 +18,12 @@ const RegistrationForm = () => {
   const error = useSelector(state => state.auth.error);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-  if (isLoggedIn) {
-    navigate('/contacts');
-  }
-}, [isLoggedIn, navigate]);
+    if (isLoggedIn) {
+      navigate('/contacts');
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleSubmit = (values, { resetForm }) => {
     dispatch(register(values));
@@ -71,9 +67,20 @@ const RegistrationForm = () => {
           />
           <ErrorMessage name="password" component="div" className={styles.error} />
         </div>
-        {error && <div className={styles.error}>{error}</div>}
+       
+        {error && (
+          <div className={styles.error}>
+            {typeof error === "object"
+              ? error.code === 11000
+                ? "This email is already registered!"
+                : JSON.stringify(error)
+              : error === "Email in use"
+                ? "This email is already registered!"
+                : error}
+          </div>
+        )}
         <button type="submit" className={styles.submitBtn} disabled={isLoading}>
-          {isLoading ? "Kayıt Yapılıyor..." : "Kayıt Ol"}
+          {isLoading ? "Registering..." : "Register"}
         </button>
       </Form>
     </Formik>

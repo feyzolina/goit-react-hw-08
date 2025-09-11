@@ -14,6 +14,10 @@ const authSlice = createSlice({
     initialState,
     extraReducers: builder => {
         builder
+          
+            .addCase(register.rejected, (state, action) => {
+                state.error = action.payload; // hata mesajı burada tutulur
+            })
             .addCase(register.fulfilled, (state, action) => {
                 state.user = action.payload.user;
                 state.token = action.payload.token;

@@ -21,7 +21,13 @@ export const register = createAsyncThunk('auth/register', async (credentials, th
         setAuthHeader(res.data.token);
         return res.data;
     } catch (e) {
-        return thunkAPI.rejectWithValue(e.message);
+        // Backend'den gelen hata mesajını öncelikli olarak kullan
+        const message =
+            e.response?.data?.message ||
+            e.response?.data ||
+            e.message ||
+            "Registration failed";
+        return thunkAPI.rejectWithValue(message);
     }
 });
 
