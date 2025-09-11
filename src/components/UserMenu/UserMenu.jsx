@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logOut } from '../../redux/auth/operations';
 import { clearContacts } from '../../redux/contacts/slice';
 import { useNavigate } from 'react-router-dom';
+import styles from './UserMenu.module.css';
 
 const UserMenu = () => {
   const dispatch = useDispatch();
@@ -15,9 +16,9 @@ const UserMenu = () => {
   };
 
   return (
-    <div>
-      <span>{user.name}</span>
-      <button onClick={handleLogout}>Logout</button>
+    <div  className={styles.menuRight}>
+        <span>Hoşgeldin, {user.name}!</span>
+      <button className={styles.logoutBtn} onClick={handleLogout}>Logout</button>
     </div>
   );
 };
