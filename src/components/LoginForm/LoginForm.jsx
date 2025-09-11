@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../../redux/auth/operations';
 import styles from './LoginForm.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 const validationSchema = Yup.object({
   email: Yup.string().email('Geçersiz email').required('Email zorunlu'),
   password: Yup.string().min(6, 'En az 6 karakter').required('Şifre zorunlu'),
@@ -12,6 +14,14 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.auth.isLoading);
   const error = useSelector(state => state.auth.error);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  if (isLoggedIn) {
+    navigate('/contacts');
+  }
+}, [isLoggedIn, navigate]);
 
   const handleSubmit = (values, { resetForm }) => {
     dispatch(logIn(values));
