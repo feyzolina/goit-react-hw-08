@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
-import { useNavigate } from 'react-router-dom';
+import styles from '../LoginForm/LoginForm.module.css';
 
 const validationSchema = Yup.object({
   name: Yup.string().min(2, 'En az 2 karakter').required('İsim zorunlu'),
@@ -15,14 +14,6 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.auth.isLoading);
   const error = useSelector(state => state.auth.error);
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/contacts');
-    }
-  }, [isLoggedIn, navigate]);
 
   const handleSubmit = (values, { resetForm }) => {
     dispatch(register(values));
@@ -35,25 +26,41 @@ const RegistrationForm = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <Form>
-        {isLoading && <p>Kayıt yapılıyor...</p>}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <label>
-          İsim
-          <Field name="name" />
-          <ErrorMessage name="name" component="div" style={{ color: 'red' }} />
-        </label>
-        <label>
-          Email
-          <Field name="email" type="email" />
-          <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
-        </label>
-        <label>
-          Şifre
-          <Field name="password" type="password" />
-          <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
-        </label>
-        <button type="submit" disabled={isLoading}>Kayıt Ol</button>
+      <Form className={styles.form}>
+        <div className={styles.inputGroup}>
+          <label className={styles.label} htmlFor="name">İsim</label>
+          <Field
+            id="name"
+            name="name"
+            className={styles.inputField}
+            autoComplete="name"
+          />
+          <ErrorMessage name="name" component="div" className={styles.error} />
+
+          <label className={styles.label} htmlFor="email">Email</label>
+          <Field
+            id="email"
+            name="email"
+            type="email"
+            className={styles.inputField}
+            autoComplete="username"
+          />
+          <ErrorMessage name="email" component="div" className={styles.error} />
+
+          <label className={styles.label} htmlFor="password">Şifre</label>
+          <Field
+            id="password"
+            name="password"
+            type="password"
+            className={styles.inputField}
+            autoComplete="new-password"
+          />
+          <ErrorMessage name="password" component="div" className={styles.error} />
+        </div>
+        {error && <div className={styles.error}>{error}</div>}
+        <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+          {isLoading ? "Kayıt Yapılıyor..." : "Kayıt Ol"}
+        </button>
       </Form>
     </Formik>
   );

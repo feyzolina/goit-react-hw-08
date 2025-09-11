@@ -56,11 +56,9 @@
 }
 .back-btn {
     position: absolute;
-    top: 20px;
+    top: -200px;
     left: -18px;
-    /* Daha sola taşır */
     width: 44px;
-    /* Yüksekliği ve genişliği artır */
     height: 44px;
     background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
     color: #3867d6;
