@@ -1,0 +1,20 @@
+.inputField {
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+    color: #3867d6;
+    border: 2px solid #d1d8e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(168, 237, 234, 0.12);
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.inputField:hover,
+.inputField.active {
+    background: #e5e7eb;
+    color: #b0b0b0;
+    border-color: #a8edea;
+}

@@ -3,6 +3,9 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/operations';
 import styles from '../LoginForm/LoginForm.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+
 
 const validationSchema = Yup.object({
   name: Yup.string().min(2, 'En az 2 karakter').required('İsim zorunlu'),
@@ -10,10 +13,21 @@ const validationSchema = Yup.object({
   password: Yup.string().min(6, 'En az 6 karakter').required('Şifre zorunlu'),
 });
 
+
+
+
 const RegistrationForm = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.auth.isLoading);
   const error = useSelector(state => state.auth.error);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+  if (isLoggedIn) {
+    navigate('/contacts');
+  }
+}, [isLoggedIn, navigate]);
 
   const handleSubmit = (values, { resetForm }) => {
     dispatch(register(values));
