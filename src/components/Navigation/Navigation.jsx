@@ -1,18 +1,24 @@
 import { NavLink } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
-// import { selectIsLoggedIn } from '../../redux/auth/selectors';
-import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styles from '../LoginForm/LoginForm.module.css';
 
 const Navigation = () => {
-   const location = useLocation();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   return (
     <nav>
-      <NavLink to="/" className={styles.inputField}>Home</NavLink>
-      {location.pathname !== "/contacts" && (
+      {isLoggedIn ? (
+        <span className={styles.inputField} style={{ opacity: 0.6, pointerEvents: 'none', cursor: 'default' }}>
+          Home
+        </span>
+      ) : (
+        <NavLink to="/" className={styles.inputField}>Home</NavLink>
+      )}
+      {/* Contacts butonu */}
+      {!isLoggedIn && (
         <NavLink to="/contacts" className={styles.inputField}>Contacts</NavLink>
       )}
+      {isLoggedIn && null}
     </nav>
   );
 };
