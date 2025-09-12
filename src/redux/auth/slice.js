@@ -16,7 +16,7 @@ const authSlice = createSlice({
         builder
           
             .addCase(register.rejected, (state, action) => {
-                state.error = action.payload; // hata mesajı burada tutulur
+                state.error = action.payload;
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.user = action.payload.user;

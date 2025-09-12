@@ -14,7 +14,7 @@ const Navigation = () => {
       ) : (
         <NavLink to="/" className={styles.inputField}>Home</NavLink>
       )}
-      {/* Contacts butonu */}
+      
       {!isLoggedIn && (
         <NavLink to="/contacts" className={styles.inputField}>Contacts</NavLink>
       )}

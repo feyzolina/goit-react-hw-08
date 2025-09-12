@@ -5,7 +5,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = 'https://connections-api.goit.global/';
 
-// Yardımcı: Header’a token ekle
+
 const setAuthHeader = token => {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
@@ -21,7 +21,7 @@ export const register = createAsyncThunk('auth/register', async (credentials, th
         setAuthHeader(res.data.token);
         return res.data;
     } catch (e) {
-        // Backend'den gelen hata mesajını öncelikli olarak kullan
+       
         const message =
             e.response?.data?.message ||
             e.response?.data ||
